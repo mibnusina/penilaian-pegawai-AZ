@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\testController;
 use App\Http\Controllers\loginController;
 use App\Http\Controllers\homeController;
+use App\Http\Controllers\pegawaiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,5 +29,13 @@ Route::post('/action-login', [loginController::class, 'actionLogin'])->name('act
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', [homeController::class, 'index'])->name('home');
+
     Route::get('/logout', [loginController::class, 'logout'])->name('logout');
+
+    Route::get('/pegawai', [pegawaiController::class, 'index'])->name('pegawai');
+    Route::get('/pegawai/data', [pegawaiController::class, 'getData']);
+    Route::get('/pegawai/data-by-id/{id}', [pegawaiController::class, 'getDataById']);
+    Route::get('/pegawai/delete/{id}', [pegawaiController::class, 'deleteData']);
+    Route::post('/pegawai/post', [pegawaiController::class, 'insertData']);
+    Route::post('/pegawai/update', [pegawaiController::class, 'updateData']);
 });
