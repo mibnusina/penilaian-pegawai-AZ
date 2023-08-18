@@ -6,12 +6,12 @@
     <div class="container-fluid">
     <div class="row mb-2">
         <div class="col-sm-6">
-        <h1 class="m-0">Data Pegawai</h1>
+        <h1 class="m-0">Data Periode</h1>
         </div><!-- /.col -->
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">Data Pegawai</li>
+                <li class="breadcrumb-item active">Data Periode</li>
             </ol>
         </div><!-- /.col -->
     </div><!-- /.row -->
@@ -43,51 +43,38 @@
             <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Form pegawai</h4>
+                    <h4 class="modal-title">Form Periode</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">NIK</label>
+                        <label class="col-sm-2 col-form-label">Nama Periode</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="nik" placeholder="NIK">
+                            <input type="text" class="form-control" id="nama-periode" placeholder="Nama Periode">
                             <input type="hidden" class="form-control" id="id" placeholder="NIK">
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Nama</label>
+                        <label class="col-sm-2 col-form-label">Bulan Awal</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="name" placeholder="Nama">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Password</label>
-                        <div class="col-sm-10">
-                            <input type="password" class="form-control" id="password" placeholder="Password">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Jabatan</label>
-                        <div class="col-sm-10">
-                            <select name="" id="jabatan" class="form-control">
+                            <select name="" id="periode-awal" class="form-control">
                             </select>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Status</label>
+                        <label class="col-sm-2 col-form-label">Bulan Akhir</label>
                         <div class="col-sm-10">
-                            <select name="" id="status" class="form-control">
-                                <option value="1">Pegawai Tetap</option>
-                                <option value="2">Pegawai Kontrak</option>
+                            <select name="" id="periode-akhir" class="form-control">
                             </select>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Lokasi</label>
+                        <label class="col-sm-2 col-form-label">Tahun</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="lokasi" placeholder="Lokasi">
+                        <select name="" id="tahun" class="form-control">
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -120,10 +107,14 @@
 <script src="{{ asset('plugins') }}/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="{{ asset('plugins') }}/datatables-buttons/js/buttons.colVis.min.js"></script>
 <script>
-    init()
+    document.addEventListener("DOMContentLoaded", function() {
+        init();
+        getMonths();
+    });
+    
 
     function init() {
-        var url = "{{ url('/') }}/pegawai/data"
+        var url = "{{ url('/') }}/periode/data"
         
         $.ajax({
             method: "get",
@@ -135,11 +126,10 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>NIK</th>
-                                    <th>Nama</th>
-                                    <th>Jabatan</th>
-                                    <th>Status</th>
-                                    <th>Lokasi</th>
+                                    <th>Nama Periode</th>
+                                    <th>Bulan Awal</th>
+                                    <th>Bulan Akhir</th>
+                                    <th>Tahun</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -147,16 +137,13 @@
 
             var no = 1
             for (let i = 0; i < res.data.length; i++) {
-                var jabatan = res.data[i].jabatan
-                var jabatanText = res.data[i].nama_jabatan
                 
                 content += `<tr>
                                 <td>${no}</td>
-                                <td>${res.data[i].nik}</td>
-                                <td>${res.data[i].name}</td>
-                                <td>${jabatanText}</td>
-                                <td>${res.data[i].status == 1 ? 'Pegawai Tetap' : 'Pegawai Kontrak'}</td>
-                                <td>${res.data[i].lokasi}</td>
+                                <td>${res.data[i].nama_periode}</td>
+                                <td>${res.data[i].periode_awal}</td>
+                                <td>${res.data[i].periode_akhir}</td>
+                                <td>${res.data[i].tahun}</td>
                                 <td>
                                     @php if (Auth::user()->jabatan == 17) { @endphp
                                     <div class="btn-group btn-group-sm">
@@ -181,42 +168,30 @@
             });
         })
 
-        getJabatan();
     }
     
     $('#save-data').on('click', function() {
         var id = $('#id').val()
-        var nik = $('#nik').val()
-        var name = $('#name').val()
-        var username = name
-        var password = $('#password').val()
-        var jabatan = $('#jabatan').val()
-        var status = $('#status').val()
-        var lokasi = $('#lokasi').val()
+        var nama_periode = $('#nama-periode').val()
+        var periode_awal = $('#periode-awal').val()
+        var periode_akhir = $('#periode-akhir').val()
+        var tahun = $('#tahun').val()
 
-        if (nik == '' || name == '' || username == '') {
+        if (nama_periode == '' || periode_awal == '' || periode_akhir == '' || tahun == '') {
             alert('Tidak boleh ada data yang kosong!')
             return false
         }
 
         if (id == '') {
-            if (password == '') {
-                alert('Tidak boleh ada data yang kosong!')
-                return false
-            }
-
-            var url = "{{ url('/') }}/pegawai/post"
+            var url = "{{ url('/') }}/periode/post"
             $.ajax({
                 method: 'post',
                 url: url,
                 data: {
-                    nik: nik,
-                    name: name,
-                    username: username,
-                    password: password,
-                    jabatan: jabatan,
-                    status: status,
-                    lokasi: lokasi,
+                    nama_periode: nama_periode,
+                    periode_awal: periode_awal,
+                    periode_akhir: periode_akhir,
+                    tahun: tahun,
                     _token: '{{ csrf_token() }}'
                 }
             }).done(function (res){
@@ -229,19 +204,16 @@
                 alert('Data gagal ditambahkan!')
             })
         } else {
-            var url = "{{ url('/') }}/pegawai/update"
+            var url = "{{ url('/') }}/periode/update"
             $.ajax({
                 method: 'post',
                 url: url,
                 data: {
                     id: id,
-                    nik: nik,
-                    name: name,
-                    username: username,
-                    password: password,
-                    jabatan: jabatan,
-                    status: status,
-                    lokasi: lokasi,
+                    nama_periode: nama_periode,
+                    periode_awal: periode_awal,
+                    periode_akhir: periode_akhir,
+                    tahun: tahun,
                     _token: '{{ csrf_token() }}'
                 }
             }).done(function (res){
@@ -260,7 +232,7 @@
         // console.log(element)
         emptyForm()
         var id = $(element).attr('id')
-        var url = "{{ url('/') }}/pegawai/data-by-id/"+id
+        var url = "{{ url('/') }}/periode/data-by-id/"+id
 
         $.ajax({
             method: "get",
@@ -268,19 +240,16 @@
         }).done(function(res){
             if (res.data != null) {
                 var dataId = res.data.id
-                var nik = res.data.nik
-                var name = res.data.name
-                var username = name
-                var jabatan = res.data.jabatan
-                var status = res.data.status
-                var lokasi = res.data.lokasi
+                var nama_periode = res.data.nama_periode
+                var periode_awal = res.data.periode_awal
+                var periode_akhir = periode_akhir
+                var tahun = res.data.tahun
 
                 $('#id').val(dataId)
-                $('#nik').val(nik)
-                $('#name').val(name)
-                $('#jabatan').val(jabatan).trigger('change')
-                $('#status').val(status).trigger('change')
-                $('#lokasi').val(lokasi)
+                $('#nama-periode').val(nama_periode)
+                $('#periode-awal').val(periode_awal)
+                $('#periode-akhir').val(periode_akhir)
+                $('#tahun').val(tahun)
 
                 $('#modal-default').modal('toggle');
             } else {
@@ -292,7 +261,7 @@
 
     function deleteData(element) {
         var id = $(element).attr('id')
-        var url = "{{ url('/') }}/pegawai/delete/"+id
+        var url = "{{ url('/') }}/periode/delete/"+id
         $.ajax({
             method: 'get',
             url: url
@@ -307,13 +276,10 @@
     }
 
     function emptyForm() {
-        $('#nik').val('')
-        $('#name').val('')
-        $('#username').val('')
-        $('#password').val('')
-        $('#lokasi').val('')
-        $('#jabatan').val(1).trigger('change')
-        $('#status').val(1).trigger('change')
+        $('#nama-periode').val('')
+        $('#periode-awal').val('')
+        $('#periode-akhir').val('')
+        $('#tahun').val('')
     }
 
     $('#new-data').on('click', function() {
@@ -321,23 +287,25 @@
         emptyForm()
     })
 
-    function getJabatan() {
-        var url = "{{ url('/') }}/jabatan/data"
-        
-        $.ajax({
-            method: "get",
-            url: url
-        }).done(function (res) {
-            // console.log(res)
-            var content = ``
-            for (let i = 0; i < res.data.length; i++) {
-                var jabatan = res.data[i].nama_jabatan
-                
-                content += `<option value="${res.data[i].id}">${jabatan}</option>`;
-            }
+    function getMonths() {
+        var months = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+        var years = [2023, 2024, 2025, 2026];
 
-            $('#jabatan').append(content)
-        })
+        var contentMonth = ``;
+        var contentYear = ``;
+
+        for (let i = 0; i < months.length; i++) {
+            contentMonth += `<option value="${months[i]}">${months[i]}</option>`;
+        }
+
+        for (let j = 0; j < years.length; j++) {
+            contentYear += `<option value="${years[j]}">${years[j]}</option>`;
+        }
+
+        $('#periode-awal').html(contentMonth);
+        $('#periode-akhir').html(contentMonth);
+        $('#tahun').html(contentYear);
     }
+
 </script>
 @endsection

@@ -14,7 +14,7 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ asset('dist') }}/css/adminlte.min.css">
 </head>
-<body class="hold-transition login-page" style="background-color: #9d4fa8;">
+<body class="hold-transition login-page" style="background-image: radial-gradient(circle, #ee39a0, #df379f, #cf349d, #c0339a, #b03197, #ad2e9b, #aa2c9f, #a62aa4, #ae26b3, #b522c2, #bb1ed2, #c01ae3);">
 <div class="login-box">
   <div class="login-logo">
     <!-- <a href="#"><b>Aplikasi </b>Manajemen Pegawai</a> -->
@@ -33,7 +33,7 @@
         @endif
         @csrf
         <div class="input-group mb-3">
-          <input type="text" name="username" class="form-control" placeholder="Username" required="">
+          <input type="text" name="nik" class="form-control" placeholder="NIK" required="">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>

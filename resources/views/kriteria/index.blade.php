@@ -24,12 +24,11 @@
     <div class="container-fluid">
         <!-- Small boxes (Stat box) -->
         <div class="card">
-            <div class="card-header">
-                <!-- <h3 class="card-title">DataTable with default features</h3> -->
+            <!-- <div class="card-header">
                 <div class="col-sm-2">
                     <button type="button" class="btn btn-block btn-primary" data-toggle="modal" data-target="#modal-default" id="new-data"><i class="fa fa-plus"></i> Tambah</button>
                 </div>
-            </div>
+            </div> -->
             <!-- /.card-header -->
             <div class="card-body" id="table-content">
                 
@@ -100,7 +99,7 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Nama Kriteria</th>
-                                    <th>Aksi</th>
+                                    <!-- <th>Aksi</th> -->
                                 </tr>
                             </thead>
                             <tbody>`
@@ -112,12 +111,14 @@
                 content += `<tr>
                                 <td>${no}</td>
                                 <td>${kriteria}</td>
+                                <!--
                                 <td>
                                     <div class="btn-group btn-group-sm">
                                         <button class="btn btn-warning" id="${res.data[i].id}" onclick="updateData(this)"><i class="fas fa-wrench"></i></button>
                                         <button class="btn btn-danger" id="${res.data[i].id}" onclick="deleteData(this)"><i class="fas fa-trash"></i></button>
                                     </div>
                                 </td>
+                                -->
                             </tr>`
                 no++
             }

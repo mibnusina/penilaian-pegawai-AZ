@@ -20,14 +20,14 @@ class loginController extends Controller
     public function actionLogin(Request $request)
     {
         $data = [
-            'username' => $request->input('username'),
+            'nik' => $request->input('nik'),
             'password' => $request->input('password'),
         ];
 
         if (Auth::Attempt($data)) {
             return redirect('home');
         } else{
-            Session::flash('error', 'Username atau Password Salah');
+            Session::flash('error', 'NIK atau Password Salah');
             return redirect('/');
         }
     }

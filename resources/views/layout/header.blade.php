@@ -44,61 +44,13 @@
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     @php
         $jabatan = Auth::user()->jabatan;
-        $jabatanText = "";
-        if ($jabatan == 1) {
-            $jabatanText = "General Manager Cluster";
-        } else if ($jabatan == 2) {
-            $jabatanText = "Canvaser";
-        } else if ($jabatan == 3) {
-            $jabatanText = "Sales Community & Corporate";
-        } 
+        
     @endphp
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
 
       <!-- Messages Dropdown Menu -->
-      <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
-          <i class="far fa-comments"></i>
-          <span class="badge badge-danger navbar-badge">3</span>
-        </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <img src="{{ asset('dist') }}/img/user.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  Brad Diesel
-                  <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
-                </h3>
-                <p class="text-sm">Call me whenever you can...</p>
-                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-              </div>
-            </div>
-            <!-- Message End -->
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
-        </div>
-      </li>
-      <!-- Notifications Dropdown Menu -->
-      <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
-          <i class="far fa-bell"></i>
-          <span class="badge badge-warning navbar-badge">15</span>
-        </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <span class="dropdown-item dropdown-header">15 Notifications</span>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-envelope mr-2"></i> 4 new messages
-            <span class="float-right text-muted text-sm">3 mins</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
-        </div>
-      </li>
+      
       <li class="nav-item">
         <a class="nav-link" href="{{ url('/logout') }}" role="button">
           <i class="fas fa-power-off"></i>
@@ -126,7 +78,7 @@
         <div class="info">
             <div class="rows" style="display: flex; flex-direction: column;">
                 <a href="#" class="d-block">{{ Auth::user()->name }}</a>
-                <a href="#" class="" style="font-size: 13px;">{{ $jabatanText }}</a>
+                <a href="#" class="" style="font-size: 13px;" id="jabatan-header-text"></a>
             </div>
           
         </div>
@@ -139,41 +91,86 @@
                with font-awesome or any other icon font library -->
           <li class="nav-item">
             <a href="{{ url('/home') }}" class="nav-link">
+              <i class="nav-icon fas fa-home"></i>
+              <p>
+                Home
+                <!-- <span class="right badge badge-danger">New</span> -->
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
-                Dashboard
-                <!-- <span class="right badge badge-danger">New</span> -->
+                Master Data
+                <i class="right fas fa-angle-left"></i>
               </p>
             </a>
+            <ul class="nav nav-treeview">
+                @php
+                  if (Auth::user()->jabatan == 17 || Auth::user()->jabatan == 18 || Auth::user()->jabatan == 1) {
+                @endphp
+              <li class="nav-item">
+                <a href="{{ url('/jabatan') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Jabatan</p>
+                </a>
+              </li>
+              @php } @endphp
+              @php
+                if (Auth::user()->jabatan == 17 || Auth::user()->jabatan == 1) {
+              @endphp
+              <li class="nav-item">
+                <a href="{{ url('/pegawai') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Pegawai</p>
+                </a>
+              </li>
+              @php } @endphp
+              @php
+                if (Auth::user()->jabatan == 17 || Auth::user()->jabatan == 18) {
+              @endphp
+              <li class="nav-item">
+                <a href="{{ url('/kriteria') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Kriteria</p>
+                </a>
+              </li>
+              @php } @endphp
+              @php
+                if (Auth::user()->jabatan == 17 || Auth::user()->jabatan == 17) {
+              @endphp
+              <li class="nav-item">
+                <a href="{{ url('/sub-kriteria') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Sub Kriteria</p>
+                </a>
+              </li>
+              @php } @endphp
+              @php
+                if (Auth::user()->jabatan == 17 || Auth::user()->jabatan == 18) {
+              @endphp
+              <li class="nav-item">
+                <a href="{{ url('/periode') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Periode</p>
+                </a>
+              </li>
+              @php } @endphp
+            </ul>
           </li>
+          @php
+            if (Auth::user()->jabatan == 5 || Auth::user()->jabatan == 8 || Auth::user()->jabatan == 9 || Auth::user()->jabatan == 1) {
+          @endphp
           <li class="nav-item">
-            <a href="{{ url('/pegawai') }}" class="nav-link">
-              <i class="nav-icon fas fa-users"></i>
-              <p>
-                Pegawai
-                <!-- <span class="right badge badge-danger">New</span> -->
-              </p>
-            </a>
-          </li>
-          <li class="nav-item" style="font-size: 14px;">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-list"></i>
-              <p>
-                Format Penilaian Pegawai
-                <!-- <span class="right badge badge-danger">New</span> -->
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{ url('/penilaian') }}" class="nav-link">
               <i class="nav-icon fas fa-recycle"></i>
               <p>
                 Penilaian Pegawai
-                <!-- <span class="right badge badge-danger">New</span> -->
               </p>
             </a>
           </li>
-          
+          @php } @endphp
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
@@ -188,7 +185,7 @@
   </div>
   <!-- /.content-wrapper -->
   <footer class="main-footer">
-    <strong>Copyright &copy; 2023 Azhari Zandia.</strong>
+    <strong>Copyright &copy; 2023 Agrabudi Komunika.</strong>
     All rights reserved.
     <div class="float-right d-none d-sm-inline-block">
       <b>Version</b> 1.0.1
@@ -210,6 +207,24 @@
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
   $.widget.bridge('uibutton', $.ui.button)
+</script>
+<script>
+  var jabatanId = '{{ Auth::user()->jabatan }}';
+  var url = "{{ url('/') }}/jabatan/data-by-id/"+jabatanId
+  var jabatanText = ''
+  $.ajax({
+      method: "get",
+      url: url
+  }).done(function(res){
+      if (res.data != null) {
+        jabatanText = res.data.nama_jabatan;
+        $('#jabatan-header-text').html(res.data.nama_jabatan);
+        $('#text-jabatan').html(jabatanText)
+      } else {
+        alert('Error baca data Jabatan!')
+        return false
+      }
+  })
 </script>
 <!-- Bootstrap 4 -->
 <script src="{{ asset('plugins') }}/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -241,5 +256,6 @@
 <!-- DataTables  & Plugins -->
 
 @yield('other-js')
+
 </body>
 </html>

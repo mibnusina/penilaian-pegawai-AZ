@@ -14,7 +14,9 @@ class pegawaiController extends Controller
     }
 
     public function getData() {
-        $data = User::orderBy('id')->get();
+        $data = User::select('users.*', 'jabatan.nama_jabatan')
+                ->leftJoin('jabatan', 'users.jabatan', '=', 'jabatan.id')
+                ->orderBy('users.id')->get();
 
         return response()->json(['message' => 'success', 'data' => $data]);
     }
@@ -27,6 +29,7 @@ class pegawaiController extends Controller
         $user->password = Hash::make($request->input('password'));
         $user->jabatan = $request->input('jabatan');
         $user->status = $request->input('status');
+        $user->lokasi = $request->input('lokasi');
         $status = $user->save();
 
         if ($status) {
@@ -55,6 +58,7 @@ class pegawaiController extends Controller
 
         $user->jabatan = $request->input('jabatan');
         $user->status = $request->input('status');
+        $user->lokasi = $request->input('lokasi');
         $status = $user->update();
 
         if ($status) {

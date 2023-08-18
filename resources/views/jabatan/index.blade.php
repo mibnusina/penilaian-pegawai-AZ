@@ -24,12 +24,14 @@
     <div class="container-fluid">
         <!-- Small boxes (Stat box) -->
         <div class="card">
+            @php if (Auth::user()->jabatan == 17) { @endphp
             <div class="card-header">
                 <!-- <h3 class="card-title">DataTable with default features</h3> -->
                 <div class="col-sm-2">
                     <button type="button" class="btn btn-block btn-primary" data-toggle="modal" data-target="#modal-default" id="new-data"><i class="fa fa-plus"></i> Tambah</button>
                 </div>
             </div>
+            @php } @endphp
             <!-- /.card-header -->
             <div class="card-body" id="table-content">
                 
@@ -114,10 +116,12 @@
                                 <td>${no}</td>
                                 <td>${jabatan}</td>
                                 <td>
+                                    @php if (Auth::user()->jabatan == 17) { @endphp
                                     <div class="btn-group btn-group-sm">
                                         <button class="btn btn-warning" id="${res.data[i].id}" onclick="updateData(this)"><i class="fas fa-wrench"></i></button>
                                         <button class="btn btn-danger" id="${res.data[i].id}" onclick="deleteData(this)"><i class="fas fa-trash"></i></button>
                                     </div>
+                                    @php } @endphp
                                 </td>
                             </tr>`
                 no++

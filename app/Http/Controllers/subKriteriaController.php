@@ -66,4 +66,10 @@ class subKriteriaController extends Controller
             return false;
         }
     }
+
+    public function kriteriaSubKriteria() {
+        $data = SubKriteria::select('sub_kriteria.*', 'kriteria.nama_kriteria')->leftJoin('kriteria', 'sub_kriteria.kriteria_id', '=', 'kriteria.id')->get();
+
+        return response()->json(['message' => 'success', 'data' => $data]);
+    }
 }
