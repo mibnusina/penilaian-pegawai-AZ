@@ -99,7 +99,8 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Nama Kriteria</th>
-                                    <!-- <th>Aksi</th> -->
+                                    <th>Status</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>`
@@ -107,18 +108,33 @@
             var no = 1
             for (let i = 0; i < res.data.length; i++) {
                 var kriteria = res.data[i].nama_kriteria
+                var statusKriteria = '';
+                var isApproved = res.data[i].is_approved;
+                var btnAction = ``
+                if (isApproved) {
+                    statusKriteria = 'Sudah diapprove';
+                } else if (!isApproved) {
+                    statusKriteria = 'approve ditolak';
+                    btnAction = `<button class="btn btn-success" id="${res.data[i].id}" onclick="approveData(this)">Approve</button>`
+                } 
+                
+                if (isApproved == null){
+                    statusKriteria = 'Belum diapprove';
+                    btnAction = `<button class="btn btn-success" id="${res.data[i].id}" onclick="approveData(this)">Approve</button>
+                                    <button class="btn btn-danger" id="${res.data[i].id}" onclick="tolakData(this)">Tolak</button>`
+                }
                 
                 content += `<tr>
                                 <td>${no}</td>
                                 <td>${kriteria}</td>
-                                <!--
+                                <td>${statusKriteria}</td>
                                 <td>
+                                    @php if (Auth::user()->jabatan == 18) { @endphp
                                     <div class="btn-group btn-group-sm">
-                                        <button class="btn btn-warning" id="${res.data[i].id}" onclick="updateData(this)"><i class="fas fa-wrench"></i></button>
-                                        <button class="btn btn-danger" id="${res.data[i].id}" onclick="deleteData(this)"><i class="fas fa-trash"></i></button>
+                                        ${btnAction}
                                     </div>
+                                    @php } @endphp
                                 </td>
-                                -->
                             </tr>`
                 no++
             }
@@ -235,5 +251,47 @@
         $('#id').val('')
         emptyForm()
     })
+
+    function approveData(element) {
+        var kriteriaId = $(element).attr('id')
+
+        var url = "{{ url('/') }}/kriteria/approve"
+        $.ajax({
+            method: 'post',
+            url: url,
+            data: {
+                kriteria_id: kriteriaId,
+                _token: '{{ csrf_token() }}'
+            }
+        }).done(function (res){
+            alert('Data berhasil diapprove!')
+            $('#table-content').html('')
+            init()
+        }).fail(function (err){
+            $('#modal-default').modal('toggle'); 
+            alert('Data gagal diapprove!')
+        })
+    }
+
+    function tolakData(element) {
+        var kriteriaId = $(element).attr('id')
+
+        var url = "{{ url('/') }}/kriteria/tolak"
+        $.ajax({
+            method: 'post',
+            url: url,
+            data: {
+                kriteria_id: kriteriaId,
+                _token: '{{ csrf_token() }}'
+            }
+        }).done(function (res){
+            alert('Data berhasil ditolak!')
+            $('#table-content').html('')
+            init()
+        }).fail(function (err){
+            $('#modal-default').modal('toggle'); 
+            alert('Data gagal ditolak!')
+        })
+    }
 </script>
 @endsection

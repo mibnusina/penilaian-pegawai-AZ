@@ -59,4 +59,32 @@ class kriteriaController extends Controller
             return false;
         }
     }
+
+    public function approveData(Request $request) {
+        $kriteriaId = $request->input('kriteria_id');
+
+        $update = Kriteria::find($kriteriaId);
+        $update->is_approved = true;
+        $status = $update->update();
+
+        if ($status) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function tolakData(Request $request) {
+        $kriteriaId = $request->input('kriteria_id');
+
+        $update = Kriteria::find($kriteriaId);
+        $update->is_approved = false;
+        $status = $update->update();
+
+        if ($status) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

@@ -27,7 +27,7 @@
             <!-- /.card-header -->
             <div class="card-body">
                 <select name="" id="periode-data" class="form-control">
-                    <option value="">Pilih Pilih</option>
+                    <option value="">Pilih Periode</option>
                 </select>
             </div>
             <!-- /.card-body -->

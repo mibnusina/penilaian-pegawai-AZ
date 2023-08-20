@@ -57,6 +57,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/kriteria/delete/{id}', [kriteriaController::class, 'deleteData']);
     Route::post('/kriteria/post', [kriteriaController::class, 'insertData']);
     Route::post('/kriteria/update', [kriteriaController::class, 'updateData']);
+    Route::post('/kriteria/approve', [kriteriaController::class, 'approveData']);
+    Route::post('/kriteria/tolak', [kriteriaController::class, 'tolakData']);
 
     Route::get('/sub-kriteria', [SubKriteriaController::class, 'index'])->name('sub-kriteria');
     Route::get('/sub-kriteria/{kriteria_id}', [SubKriteriaController::class, 'indexKriteriaId']);
@@ -65,6 +67,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/sub-kriteria/delete/{id}', [SubKriteriaController::class, 'deleteData']);
     Route::post('/sub-kriteria/post', [SubKriteriaController::class, 'insertData']);
     Route::post('/sub-kriteria/update', [SubKriteriaController::class, 'updateData']);
+    Route::post('/sub-kriteria/approve', [SubKriteriaController::class, 'approveData']);
+    Route::post('/sub-kriteria/tolak', [SubKriteriaController::class, 'tolakData']);
 
     Route::get('/periode', [periodeController::class, 'index'])->name('periode');
     Route::get('/periode/data', [periodeController::class, 'getData']);

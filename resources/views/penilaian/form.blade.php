@@ -8,12 +8,12 @@
     <div class="container-fluid">
     <div class="row mb-2">
         <div class="col-sm-6">
-        <h1 class="m-0">Perhitungan Kriteria</h1>
+        <h1 class="m-0">Form Penilaian</h1>
         </div><!-- /.col -->
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">Perhitungan Kriteria</li>
+                <li class="breadcrumb-item active">Form Penilaian</li>
             </ol>
         </div><!-- /.col -->
     </div><!-- /.row -->
@@ -33,7 +33,28 @@
         <!-- /.card-body -->
         <!-- Small boxes (Stat box) -->
         <div class="card" id="card-content">
-            
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <th>Nilai</th>
+                    <th>Keterangan</th>
+                </tr>
+                <tr>
+                    <td>16-20</td>
+                    <td>Sangat Baik</td>
+                </tr>
+                <tr>
+                    <td>11-15</td>
+                    <td>Baik</td>
+                </tr>
+                <tr>
+                    <td>6-10</td>
+                    <td>Kurang</td>
+                </tr>
+                <tr>
+                    <td>1-5</td>
+                    <td>Sangat Kurang</td>
+                </tr>
+            </table>
         </div>
 
         <div class="card" id="hasil-perhitungan" style="display: none;">

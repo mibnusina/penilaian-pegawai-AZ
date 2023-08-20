@@ -148,26 +148,41 @@
                                     <th>No</th>
                                     <th>Sub Kriteria</th>
                                     <th>Kode</th>
-                                    <!-- <th>Aksi</th> -->
+                                    <th>Status</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>`
 
             var no = 1
             for (let i = 0; i < res.data.length; i++) {
+                var statusSubKriteria = '';
+                var isApproved = res.data[i].is_approved;
+                var btnAction = ``
+                if (isApproved) {
+                    statusSubKriteria = 'Sudah diapprove';
+                } else if (!isApproved) {
+                    statusSubKriteria = 'approve ditolak';
+                    btnAction = `<button class="btn btn-success" id="${res.data[i].id}" onclick="approveData(this)">Approve</button>`
+                } 
                 
+                if (isApproved == null){
+                    statusSubKriteria = 'Belum diapprove';
+                    btnAction = `<button class="btn btn-success" id="${res.data[i].id}" onclick="approveData(this)">Approve</button>
+                                    <button class="btn btn-danger" id="${res.data[i].id}" onclick="tolakData(this)">Tolak</button>`
+                }
                 content += `<tr>
                                 <td>${no}</td>
                                 <td>${res.data[i].nama_sub_kriteria}</td>
                                 <td>${res.data[i].kode}</td>
-                                <!--
+                                <td>${statusSubKriteria}</td>
                                 <td>
-                                    <div class="btn-group btn-group-sm">
-                                        <button class="btn btn-warning" id="${res.data[i].id}" onclick="updateData(this)"><i class="fas fa-wrench"></i></button>
-                                        <button class="btn btn-danger" id="${res.data[i].id}" onclick="deleteData(this)"><i class="fas fa-trash"></i></button>
-                                    </div>
+                                    @php if (Auth::user()->jabatan == 18) { @endphp
+                                        <div class="btn-group btn-group-sm">
+                                            ${btnAction}
+                                        </div>
+                                    @php } @endphp
                                 </td>
-                                -->
                             </tr>`
                 no++
             }
@@ -298,5 +313,47 @@
 
         window.location.replace("{{ url('/') }}/sub-kriteria/" + kriteriaId);
     })
+
+    function approveData(element) {
+        var SubKriteriaId = $(element).attr('id')
+
+        var url = "{{ url('/') }}/sub-kriteria/approve"
+        $.ajax({
+            method: 'post',
+            url: url,
+            data: {
+                sub_kriteria_id: SubKriteriaId,
+                _token: '{{ csrf_token() }}'
+            }
+        }).done(function (res){
+            alert('Data berhasil diapprove!')
+            $('#table-content').html('')
+            getData(kriteriaId)
+        }).fail(function (err){
+            $('#modal-default').modal('toggle'); 
+            alert('Data gagal diapprove!')
+        })
+    }
+
+    function tolakData(element) {
+        var SubKriteriaId = $(element).attr('id')
+
+        var url = "{{ url('/') }}/sub-kriteria/tolak"
+        $.ajax({
+            method: 'post',
+            url: url,
+            data: {
+                sub_kriteria_id: SubKriteriaId,
+                _token: '{{ csrf_token() }}'
+            }
+        }).done(function (res){
+            alert('Data berhasil ditolak!')
+            $('#table-content').html('')
+            getData(kriteriaId)
+        }).fail(function (err){
+            $('#modal-default').modal('toggle'); 
+            alert('Data gagal ditolak!')
+        })
+    }
 </script>
 @endsection

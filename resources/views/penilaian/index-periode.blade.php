@@ -28,7 +28,7 @@
             <!-- /.card-header -->
             <div class="card-body">
                 <select name="" id="periode-data" class="form-control">
-                    <option value="">Pilih Pilih</option>
+                    <option value="">Pilih Periode</option>
                 </select>
             </div>
             <!-- /.card-body -->
@@ -184,7 +184,7 @@
                 content += `<tr>
                                 <td>${no}</td>
                                 <td>${res.data[i].name}</td>
-                                <td>${res.data[i].nilai_akhir}</td>
+                                <td>${(res.data[i].nilai_akhir).toFixed(2)}</td>
                                 <td>${hasilAkhir}</td>
                                 <td>${res.data[i].status ? 'Sudah diapprove' : 'Belum diapprove'}</td>
                                 <td>

@@ -138,7 +138,7 @@
               </li>
               @php } @endphp
               @php
-                if (Auth::user()->jabatan == 17 || Auth::user()->jabatan == 17) {
+                if (Auth::user()->jabatan == 17 || Auth::user()->jabatan == 18) {
               @endphp
               <li class="nav-item">
                 <a href="{{ url('/sub-kriteria') }}" class="nav-link">

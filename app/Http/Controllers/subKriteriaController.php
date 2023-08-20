@@ -68,8 +68,36 @@ class subKriteriaController extends Controller
     }
 
     public function kriteriaSubKriteria() {
-        $data = SubKriteria::select('sub_kriteria.*', 'kriteria.nama_kriteria')->leftJoin('kriteria', 'sub_kriteria.kriteria_id', '=', 'kriteria.id')->get();
+        $data = SubKriteria::select('sub_kriteria.*', 'kriteria.nama_kriteria')->leftJoin('kriteria', 'sub_kriteria.kriteria_id', '=', 'kriteria.id')->where('sub_kriteria.is_approved', true)->get();
 
         return response()->json(['message' => 'success', 'data' => $data]);
+    }
+
+    public function approveData(Request $request) {
+        $subKriteriaId = $request->input('sub_kriteria_id');
+
+        $update = SubKriteria::find($subKriteriaId);
+        $update->is_approved = true;
+        $status = $update->update();
+
+        if ($status) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function tolakData(Request $request) {
+        $subKriteriaId = $request->input('sub_kriteria_id');
+
+        $update = SubKriteria::find($subKriteriaId);
+        $update->is_approved = false;
+        $status = $update->update();
+
+        if ($status) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
