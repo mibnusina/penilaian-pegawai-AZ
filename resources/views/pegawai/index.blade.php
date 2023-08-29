@@ -87,7 +87,9 @@
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Lokasi</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="lokasi" placeholder="Lokasi">
+                            <!-- <input type="text" class="form-control" id="lokasi" placeholder="Lokasi"> -->
+                            <select name="" id="lokasi" class="form-control">
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -156,7 +158,7 @@
                                 <td>${res.data[i].name}</td>
                                 <td>${jabatanText}</td>
                                 <td>${res.data[i].status == 1 ? 'Pegawai Tetap' : 'Pegawai Kontrak'}</td>
-                                <td>${res.data[i].lokasi}</td>
+                                <td>${res.data[i].nama_lokasi}</td>
                                 <td>
                                     @php if (Auth::user()->jabatan == 17) { @endphp
                                     <div class="btn-group btn-group-sm">
@@ -182,6 +184,7 @@
         })
 
         getJabatan();
+        getLokasi();
     }
     
     $('#save-data').on('click', function() {
@@ -273,14 +276,14 @@
                 var username = name
                 var jabatan = res.data.jabatan
                 var status = res.data.status
-                var lokasi = res.data.lokasi
+                var lokasi = res.data.lokasi_id
 
                 $('#id').val(dataId)
                 $('#nik').val(nik)
                 $('#name').val(name)
                 $('#jabatan').val(jabatan).trigger('change')
                 $('#status').val(status).trigger('change')
-                $('#lokasi').val(lokasi)
+                $('#lokasi').val(lokasi).trigger('change')
 
                 $('#modal-default').modal('toggle');
             } else {
@@ -337,6 +340,25 @@
             }
 
             $('#jabatan').append(content)
+        })
+    }
+
+    function getLokasi() {
+        var url = "{{ url('/') }}/lokasi/data"
+        
+        $.ajax({
+            method: "get",
+            url: url
+        }).done(function (res) {
+            // console.log(res)
+            var content = ``
+            for (let i = 0; i < res.data.length; i++) {
+                var lokasi = res.data[i].nama_lokasi
+                
+                content += `<option value="${res.data[i].id}">${lokasi}</option>`;
+            }
+
+            $('#lokasi').append(content)
         })
     }
 </script>

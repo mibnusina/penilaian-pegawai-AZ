@@ -79,6 +79,7 @@
             <div class="rows" style="display: flex; flex-direction: column;">
                 <a href="#" class="d-block">{{ Auth::user()->name }}</a>
                 <a href="#" class="" style="font-size: 13px;" id="jabatan-header-text"></a>
+                <a href="#" class="" style="font-size: 13px;" id="lokasi-header-text"></a>
             </div>
           
         </div>
@@ -107,9 +108,19 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-                @php
-                  if (Auth::user()->jabatan == 17 || Auth::user()->jabatan == 18 || Auth::user()->jabatan == 1) {
-                @endphp
+              @php
+                if (Auth::user()->jabatan == 17 || Auth::user()->jabatan == 18 || Auth::user()->jabatan == 1) {
+              @endphp
+              <li class="nav-item">
+                <a href="{{ url('/lokasi') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Lokasi</p>
+                </a>
+              </li>
+              @php } @endphp
+              @php
+                if (Auth::user()->jabatan == 17 || Auth::user()->jabatan == 18 || Auth::user()->jabatan == 1) {
+              @endphp
               <li class="nav-item">
                 <a href="{{ url('/jabatan') }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -222,6 +233,23 @@
         $('#text-jabatan').html(jabatanText)
       } else {
         alert('Error baca data Jabatan!')
+        return false
+      }
+  })
+
+  var lokasiId = '{{ Auth::user()->lokasi_id }}';
+  var url = "{{ url('/') }}/lokasi/data-by-id/"+lokasiId
+  var lokasiText = ''
+  $.ajax({
+      method: "get",
+      url: url
+  }).done(function(res){
+      if (res.data != null) {
+        lokasiText = res.data.nama_lokasi;
+        $('#lokasi-header-text').html(res.data.nama_lokasi);
+        // $('#text-jabatan').html(jabatanText)
+      } else {
+        alert('Error baca data Lokasi!')
         return false
       }
   })

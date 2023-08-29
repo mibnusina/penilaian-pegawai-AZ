@@ -11,6 +11,7 @@ use App\Http\Controllers\kriteriaController;
 use App\Http\Controllers\subKriteriaController;
 use App\Http\Controllers\penilaianController;
 use App\Http\Controllers\periodeController;
+use App\Http\Controllers\lokasiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,6 +40,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/pegawai', [pegawaiController::class, 'index'])->name('pegawai');
     Route::get('/pegawai/data', [pegawaiController::class, 'getData']);
+    Route::get('/pegawai/data-by-lokasi', [pegawaiController::class, 'getDataByLokasi']);
     Route::get('/pegawai/data-by-id/{id}', [pegawaiController::class, 'getDataById']);
     Route::get('/pegawai/delete/{id}', [pegawaiController::class, 'deleteData']);
     Route::post('/pegawai/post', [pegawaiController::class, 'insertData']);
@@ -85,4 +87,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/penilaian/approve', [penilaianController::class, 'approveData']);
 
     Route::get('/kriteria-sub-kriteria', [SubKriteriaController::class, 'kriteriaSubKriteria']);
+
+    Route::get('/lokasi', [lokasiController::class, 'index'])->name('lokasi');
+    Route::get('/lokasi/data', [lokasiController::class, 'getData']);
+    Route::get('/lokasi/data-by-id/{id}', [lokasiController::class, 'getDataById']);
+    Route::get('/lokasi/delete/{id}', [lokasiController::class, 'deleteData']);
+    Route::post('/lokasi/post', [lokasiController::class, 'insertData']);
+    Route::post('/lokasi/update', [lokasiController::class, 'updateData']);
 });

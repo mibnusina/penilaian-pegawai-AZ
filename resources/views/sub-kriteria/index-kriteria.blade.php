@@ -36,11 +36,13 @@
         <!-- /.card -->
         <!-- Small boxes (Stat box) -->
         <div class="card">
-            <!-- <div class="card-header">
+            @php if (Auth::user()->jabatan == 17) { @endphp
+            <div class="card-header">
                 <div class="col-sm-2">
                     <button type="button" class="btn btn-block btn-primary" data-toggle="modal" data-target="#modal-default" id="new-data"><i class="fa fa-plus"></i> Tambah</button>
                 </div>
-            </div> -->
+            </div>
+            @php } @endphp
             <!-- /.card-header -->
             <div class="card-body" id="table-content">
                 
@@ -181,6 +183,12 @@
                                         <div class="btn-group btn-group-sm">
                                             ${btnAction}
                                         </div>
+                                    @php } @endphp
+                                    @php if (Auth::user()->jabatan == 17) { @endphp
+                                    <div class="btn-group btn-group-sm">
+                                        <button class="btn btn-warning" id="${res.data[i].id}" onclick="updateData(this)"><i class="fas fa-wrench"></i></button>
+                                        <button class="btn btn-danger" id="${res.data[i].id}" onclick="deleteData(this)"><i class="fas fa-trash"></i></button>
+                                    </div>
                                     @php } @endphp
                                 </td>
                             </tr>`

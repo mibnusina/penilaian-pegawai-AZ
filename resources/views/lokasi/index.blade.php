@@ -6,12 +6,12 @@
     <div class="container-fluid">
     <div class="row mb-2">
         <div class="col-sm-6">
-        <h1 class="m-0">Data Kriteria</h1>
+        <h1 class="m-0">Data Lokasi</h1>
         </div><!-- /.col -->
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">Data Kriteria</li>
+                <li class="breadcrumb-item active">Data Lokasi</li>
             </ol>
         </div><!-- /.col -->
     </div><!-- /.row -->
@@ -26,6 +26,7 @@
         <div class="card">
             @php if (Auth::user()->jabatan == 17) { @endphp
             <div class="card-header">
+                <!-- <h3 class="card-title">DataTable with default features</h3> -->
                 <div class="col-sm-2">
                     <button type="button" class="btn btn-block btn-primary" data-toggle="modal" data-target="#modal-default" id="new-data"><i class="fa fa-plus"></i> Tambah</button>
                 </div>
@@ -42,16 +43,16 @@
             <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Form kriteria</h4>
+                    <h4 class="modal-title">Form Lokasi</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Kriteria</label>
+                        <label class="col-sm-2 col-form-label">Nama Lokasi</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="nama_kriteria" placeholder="Kriteria">
+                            <input type="text" class="form-control" id="nama-lokasi" placeholder="Nama Lokasi">
                             <input type="hidden" class="form-control" id="id" placeholder="NIK">
                         </div>
                     </div>
@@ -85,10 +86,13 @@
 <script src="{{ asset('plugins') }}/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="{{ asset('plugins') }}/datatables-buttons/js/buttons.colVis.min.js"></script>
 <script>
-    init()
+    document.addEventListener("DOMContentLoaded", function() {
+        init();
+    });
+    
 
     function init() {
-        var url = "{{ url('/') }}/kriteria/data"
+        var url = "{{ url('/') }}/lokasi/data"
         
         $.ajax({
             method: "get",
@@ -100,8 +104,7 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Nama Kriteria</th>
-                                    <th>Status</th>
+                                    <th>Nama Lokasi</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -109,33 +112,11 @@
 
             var no = 1
             for (let i = 0; i < res.data.length; i++) {
-                var kriteria = res.data[i].nama_kriteria
-                var statusKriteria = '';
-                var isApproved = res.data[i].is_approved;
-                var btnAction = ``
-                if (isApproved) {
-                    statusKriteria = 'Sudah diapprove';
-                } else if (!isApproved) {
-                    statusKriteria = 'approve ditolak';
-                    btnAction = `<button class="btn btn-success" id="${res.data[i].id}" onclick="approveData(this)">Approve</button>`
-                } 
-                
-                if (isApproved == null){
-                    statusKriteria = 'Belum diapprove';
-                    btnAction = `<button class="btn btn-success" id="${res.data[i].id}" onclick="approveData(this)">Approve</button>
-                                    <button class="btn btn-danger" id="${res.data[i].id}" onclick="tolakData(this)">Tolak</button>`
-                }
                 
                 content += `<tr>
                                 <td>${no}</td>
-                                <td>${kriteria}</td>
-                                <td>${statusKriteria}</td>
+                                <td>${res.data[i].nama_lokasi}</td>
                                 <td>
-                                    @php if (Auth::user()->jabatan == 18) { @endphp
-                                    <div class="btn-group btn-group-sm">
-                                        ${btnAction}
-                                    </div>
-                                    @php } @endphp
                                     @php if (Auth::user()->jabatan == 17) { @endphp
                                     <div class="btn-group btn-group-sm">
                                         <button class="btn btn-warning" id="${res.data[i].id}" onclick="updateData(this)"><i class="fas fa-wrench"></i></button>
@@ -158,25 +139,25 @@
                 }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
             });
         })
+
     }
     
     $('#save-data').on('click', function() {
         var id = $('#id').val()
-        var nama_kriteria = $('#nama_kriteria').val()
+        var nama_lokasi = $('#nama-lokasi').val()
 
-        if (nama_kriteria == '') {
+        if (nama_lokasi == '') {
             alert('Tidak boleh ada data yang kosong!')
             return false
         }
 
         if (id == '') {
-
-            var url = "{{ url('/') }}/kriteria/post"
+            var url = "{{ url('/') }}/lokasi/post"
             $.ajax({
                 method: 'post',
                 url: url,
                 data: {
-                    nama_kriteria: nama_kriteria,
+                    nama_lokasi: nama_lokasi,
                     _token: '{{ csrf_token() }}'
                 }
             }).done(function (res){
@@ -189,13 +170,13 @@
                 alert('Data gagal ditambahkan!')
             })
         } else {
-            var url = "{{ url('/') }}/kriteria/update"
+            var url = "{{ url('/') }}/lokasi/update"
             $.ajax({
                 method: 'post',
                 url: url,
                 data: {
                     id: id,
-                    nama_kriteria: nama_kriteria,
+                    nama_lokasi: nama_lokasi,
                     _token: '{{ csrf_token() }}'
                 }
             }).done(function (res){
@@ -214,7 +195,7 @@
         // console.log(element)
         emptyForm()
         var id = $(element).attr('id')
-        var url = "{{ url('/') }}/kriteria/data-by-id/"+id
+        var url = "{{ url('/') }}/lokasi/data-by-id/"+id
 
         $.ajax({
             method: "get",
@@ -222,10 +203,10 @@
         }).done(function(res){
             if (res.data != null) {
                 var dataId = res.data.id
-                var nama_kriteria = res.data.nama_kriteria
+                var nama_lokasi = res.data.nama_lokasi
 
                 $('#id').val(dataId)
-                $('#nama_kriteria').val(nama_kriteria)
+                $('#nama-periode').val(nama_lokasi)
 
                 $('#modal-default').modal('toggle');
             } else {
@@ -237,7 +218,7 @@
 
     function deleteData(element) {
         var id = $(element).attr('id')
-        var url = "{{ url('/') }}/kriteria/delete/"+id
+        var url = "{{ url('/') }}/lokasi/delete/"+id
         $.ajax({
             method: 'get',
             url: url
@@ -252,7 +233,10 @@
     }
 
     function emptyForm() {
-        $('#nama_kriteria').val('')
+        $('#nama-periode').val('')
+        $('#periode-awal').val('')
+        $('#periode-akhir').val('')
+        $('#tahun').val('')
     }
 
     $('#new-data').on('click', function() {
@@ -260,46 +244,6 @@
         emptyForm()
     })
 
-    function approveData(element) {
-        var kriteriaId = $(element).attr('id')
 
-        var url = "{{ url('/') }}/kriteria/approve"
-        $.ajax({
-            method: 'post',
-            url: url,
-            data: {
-                kriteria_id: kriteriaId,
-                _token: '{{ csrf_token() }}'
-            }
-        }).done(function (res){
-            alert('Data berhasil diapprove!')
-            $('#table-content').html('')
-            init()
-        }).fail(function (err){
-            $('#modal-default').modal('toggle'); 
-            alert('Data gagal diapprove!')
-        })
-    }
-
-    function tolakData(element) {
-        var kriteriaId = $(element).attr('id')
-
-        var url = "{{ url('/') }}/kriteria/tolak"
-        $.ajax({
-            method: 'post',
-            url: url,
-            data: {
-                kriteria_id: kriteriaId,
-                _token: '{{ csrf_token() }}'
-            }
-        }).done(function (res){
-            alert('Data berhasil ditolak!')
-            $('#table-content').html('')
-            init()
-        }).fail(function (err){
-            $('#modal-default').modal('toggle'); 
-            alert('Data gagal ditolak!')
-        })
-    }
 </script>
 @endsection

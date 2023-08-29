@@ -33,7 +33,7 @@
     <!-- /.login-logo -->
     <div class="card">
       <div class="card-body login-card-body">
-        <p class="login-box-msg"><b>Aplikasi </b>Manajemen Pegawai</p>
+        <p class="login-box-msg"><b>Aplikasi </b>Manajemen penilaian pegawai PT Agrabudi Komunika</p>
 
         <form action="{{ route('action-login') }}" method="post">
           @if(session('error'))

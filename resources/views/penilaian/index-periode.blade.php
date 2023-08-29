@@ -37,7 +37,7 @@
         <!-- Small boxes (Stat box) -->
         <div class="card">
             @php
-                if (Auth::user()->jabatan == 5 || Auth::user()->jabatan == 8 || Auth::user()->jabatan == 9) {
+                if (Auth::user()->jabatan == 5 || Auth::user()->jabatan == 8 || Auth::user()->jabatan == 9 ) {
             @endphp
             <div class="card-header">
                 <div class="col-sm-2">

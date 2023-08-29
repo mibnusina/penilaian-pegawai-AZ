@@ -171,7 +171,7 @@
     }
 
     function getDataPegawai() {
-        var url = "{{ url('/') }}/pegawai/data"
+        var url = "{{ url('/') }}/pegawai/data-by-lokasi"
         
         $.ajax({
             method: "get",
